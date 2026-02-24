@@ -12,6 +12,7 @@ function format {
 mkfs.ext4 -b 4096 $root &&
 mkfs.vfat -F32 -n BOOT $boot &&
 mkfs.ext4 -b 4096 $home
+
 }
 
 # boot partition 
@@ -28,9 +29,9 @@ mount $home /mnt/home
 # home partition 
 #function create_home {
 
-mkfs.ext4 -b 4096 $home &&
-mkdir /mnt home &&
-mount $home /mnt/home
+#mkfs.ext4 -b 4096 $home &&
+#mkdir /mnt home &&
+#mount $home /mnt/home
 
 }
 
