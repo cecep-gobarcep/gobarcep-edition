@@ -126,7 +126,7 @@ mv /mnt/boot/vmlinuz-* /mnt/boot/kernel &&
 rm -fr /mnt/boot/initramfs-*
 arch-chroot /mnt bootctl --path=/boot install
 arch-chroot /mnt mkinitcpio -P
-umount -R /mnt
+#umount -R /mnt
 
 }
 
