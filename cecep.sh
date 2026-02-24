@@ -48,7 +48,7 @@ function network {
 
 cp /etc/systemd/network/* /mnt/etc/systemd/network  &&
 mkdir /mnt/var/lib/iwd &&
-cp /var/lib/iwd /mnt/var/lib/iwd
+cp -r /var/lib/iwd /mnt/var/lib/iwd
 
 }
 
