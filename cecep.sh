@@ -130,68 +130,55 @@ function runscript {
 
 echo "configure pon"
 create_root
-clear &&
 sleep 5
 
 echo "configure cboot"
 create_boot
-clear &&
 sleep 5
 
 echo "configure home"
 create_home
-clear &&
 sleep 5
 
 echo "configure packages"
 packages
-clear &&
 sleep 5
 
 echo "configure network"
 network
-clear &&
 sleep 5
 
 echo "configure tampilan"
 tampilan
-clear &&
 sleep
 
 echo "configure host"
 hostname
-clear &&
 sleep 5
 
 echo "configure time"
 timezone
-clear &&
 sleep 5
 
 
 echo "configure user"
 username
-clear &&
 sleep 5
 
 echo "configure sudo"
 sudoers
-clear &&
 sleep 5
 
 echo "configure cmd"
 cmdline
-clear &&
 sleep 5
 
 echo "configure mkinit"
 mkinitcpio
-clear &&
 sleep 5
 
 echo "configure boot"
 boot
-clear &&
 sleep 5
 
 }
