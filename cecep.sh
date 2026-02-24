@@ -98,10 +98,10 @@ echo "$username ALL=(ALL:ALL) ALL" > /mnt/etc/sudoers.d/nologin
 # cmdline
 function cmdline {
 
-arch-chroot /mnt mkdir -p /mnt/etc/cmdline.d &&
-arch-chroot /mnt touch /mnt/etc/cmdline.d/{01-boot.conf,02-mods.conf,03-secs.conf,04-perf.conf,05-nets.conf,06-misc.conf} &&
-arch-chroot /mnt echo "root=$root" /mnt/etc/cmdline.d/01-boot.conf &&
-arch-chroot /mnt echo "rw" /mnt/etc/cmdline.d/06-misc.conf
+arch-chroot /mnt mkdir -p /etc/cmdline.d &&
+arch-chroot /mnt touch /etc/cmdline.d/{01-boot.conf,02-mods.conf,03-secs.conf,04-perf.conf,05-nets.conf,06-misc.conf} &&
+arch-chroot /mnt echo "root=$root" /etc/cmdline.d/01-boot.conf &&
+arch-chroot /mnt echo "rw" /etc/cmdline.d/06-misc.conf
 
 }
 
