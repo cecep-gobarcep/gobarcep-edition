@@ -39,7 +39,7 @@ mount $home /mnt/home
 # packages
 function packages {
 
-pacstrap /mnt linux-zen linux-headers linux-firmware processor iptables-nft bash-completion base base-devel mkinitcpio git firewalld wget neovim --noconfirm &&
+pacstrap /mnt linux-zen linux-headers linux-firmware $processor iptables-nft bash-completion base base-devel mkinitcpio git firewalld wget neovim --noconfirm &&
 genfstab -U /mnt > /mnt/etc/fstab
 
 }
