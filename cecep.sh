@@ -7,24 +7,26 @@ read -p "masukan password" pw
 read -p "masukan nama procesor" procesor
 
 # root partition
-function create_root {
+function format {
 
 mkfs.ext4 -b 4096 $root &&
-mount $root /mnt
-
+mkfs.vfat -F32 -n BOOT $boot &&
+mkfs.ext4 -b 4096 $home
 }
 
 # boot partition 
-function create_boot {
+function mounting {
 
-mkfs.vfat -F32 -n BOOT $boot &&
+mount $root /mnt &&
 mkdir /mnt/boot &&
+mkdir /mnt home &&
 mount -o uid=0,gid=0,fmask=0077,dmask=0077 $boot /mnt/boot
+mount $home /mnt/home
 
 }
 
 # home partition 
-function create_home {
+#function create_home {
 
 mkfs.ext4 -b 4096 $home &&
 mkdir /mnt home &&
@@ -129,15 +131,11 @@ umount -R /mnt
 function runscript {
 
 echo "configure pon"
-create_root
+format
 sleep 5
 
 echo "configure cboot"
-create_boot
-sleep 5
-
-echo "configure home"
-create_home
+mounting
 sleep 5
 
 echo "configure packages"
