@@ -5,7 +5,7 @@ read -p "masukan username: " username
 read -p "masukan hostname: " hostname
 read -sp "masukan password: " pw
 echo 
-read -p "masukan nama procesor: " procesor
+read -p "masukan nama procesor (misal intel-ucode/amd-ucode :  " processor
 
 # root partition
 function format {
@@ -39,7 +39,7 @@ mount $home /mnt/home
 # packages
 function packages {
 
-pacstrap /mnt linux-zen linux-headers linux-firmware-$procesor $procesor-ucode iptables-nft bash-completion base base-devel mkinitcpio git firewalld wget neovim --noconfirm &&
+pacstrap /mnt linux-zen linux-headers linux-firmware processor iptables-nft bash-completion base base-devel mkinitcpio git firewalld wget neovim --noconfirm &&
 genfstab -U /mnt > /mnt/etc/fstab
 
 }
