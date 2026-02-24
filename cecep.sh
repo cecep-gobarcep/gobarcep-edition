@@ -5,7 +5,7 @@ read -p "masukan username: " username
 read -p "masukan hostname: " hostname
 read -sp "masukan password: " pw
 echo 
-read -p "masukan nama procesor (misal intel-ucode/amd-ucode :  " processor
+read -p "masukan nama procesor (misal intel-ucode/amd-ucode) :  " processor
 
 # root partition
 function format {
