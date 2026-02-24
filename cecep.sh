@@ -100,8 +100,8 @@ function cmdline {
 
 arch-chroot /mnt mkdir -p /etc/cmdline.d &&
 arch-chroot /mnt touch /etc/cmdline.d/{01-boot.conf,02-mods.conf,03-secs.conf,04-perf.conf,05-nets.conf,06-misc.conf} &&
-arch-chroot /mnt echo "root=$root" /etc/cmdline.d/01-boot.conf &&
-arch-chroot /mnt echo "rw" /etc/cmdline.d/06-misc.conf
+echo "root=$root" > /mnt/etc/cmdline.d/01-boot.conf &&
+echo "rw" > /mnt/etc/cmdline.d/06-misc.conf
 
 }
 
@@ -109,13 +109,11 @@ arch-chroot /mnt echo "rw" /etc/cmdline.d/06-misc.conf
 function mkinticpio {
 
 mv /mnt/etc/mkinitcpio.conf /mnt/etc/mkinitcpio.d/default.conf &&
-arch-chroot /mnt /bin/bash -c "
-    sed -i 's|^#ALL_config=\"/etc/mkinitcpio.conf\"|ALL_config=\"/etc/mkinitcpio.d/default.conf\"|' /etc/mkinitcpio.d/linux-zen.preset
-    sed -i 's|^#ALL_kver=\"/boot/vmlinuz-linux-zen\"|ALL_kver=\"/boot/kernel/vmlinuz-linux-zen\"|' /etc/mkinitcpio.d/linux-zen.preset
-    sed -i 's|^#ALL_kerneldest=\"/boot/vmlinuz-linux-zen\"|ALL_kerneldest=\"/boot/kernel/vmlinuz-linux-zen\"|' /etc/mkinitcpio.d/linux-zen.preset
-    sed -i 's|^default_image=\"/boot/initramfs-linux-zen.img\"|#default_image=\"/boot/initramfs-linux-zen.img\"|' /etc/mkinitcpio.d/linux-zen.preset
-    sed -i 's|^#default_uki=\"/efi/EFI/Linux/arch-linux-zen.efi\"|default_uki=\"/boot/efi/Linux/arch-linux-zen.efi\"|' /etc/mkinitcpio.d/linux-zen.preset
-"
+arch-chroot /mnt sed -i "s/^#ALL_config=\"/etc/mkinitcpio.conf\"/ALL_config=\"/etc/mkinitcpio.d/default.conf\"/" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s/^#ALL_kver=\"/boot/vmlinuz-linux-zen\"/ALL_kver=\"/boot/kernel/vmlinuz-linux-zen\"/" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s/^#ALL_kerneldest=\"/boot/vmlinuz-linux-zen\"/ALL_kerneldest=\"/boot/kernel/vmlinuz-linux-zen\"/" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s/^default_image=\"/boot/initramfs-linux-zen.img\"/#default_image=\"/boot/initramfs-linux-zen.img\"/" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s/^#default_uki=\"/efi/EFI/Linux/arch-linux-zen.efi\"/default_uki=\"/boot/efi/Linux/arch-linux-zen.efi\"/" /etc/mkinitcpio.d/linux-zen.preset
 
 }
 
