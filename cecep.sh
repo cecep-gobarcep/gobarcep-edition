@@ -108,7 +108,7 @@ echo "rw" > /mnt/etc/cmdline.d/06-misc.conf
 # mkinitcpio
 function mkinticpio {
 
-mv /mnt/etc/mkinitcpio.conf /mnt/etc/mkinitcpio.d/default.conf &&
+arch-chroot /mnt mv /etc/mkinitcpio.conf /etc/mkinitcpio.d/default.conf &&
 arch-chroot /mnt sed -i "s/^#ALL_config=\"/etc/mkinitcpio.conf\"/ALL_config=\"/etc/mkinitcpio.d/default.conf\"/" /etc/mkinitcpio.d/linux-zen.preset &&
 arch-chroot /mnt sed -i "s/^#ALL_kver=\"/boot/vmlinuz-linux-zen\"/ALL_kver=\"/boot/kernel/vmlinuz-linux-zen\"/" /etc/mkinitcpio.d/linux-zen.preset &&
 arch-chroot /mnt sed -i "s/^#ALL_kerneldest=\"/boot/vmlinuz-linux-zen\"/ALL_kerneldest=\"/boot/kernel/vmlinuz-linux-zen\"/" /etc/mkinitcpio.d/linux-zen.preset &&
