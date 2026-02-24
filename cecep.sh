@@ -3,7 +3,7 @@ read -p "masukan partisi root: " root
 read -p "masukan partisi home: " home
 read -p "masukan username: " username
 read -p "masukan hostname: " hostname
-#read -p "masukan password: " pw
+read -sp "masukan password: " pw
 read -p "masukan nama procesor: " procesor
 
 # root partition
@@ -83,7 +83,7 @@ arch-chroot /mnt sed -i 's/^LC_ALL=/LC_ALL=en_US.UTF-8/' /mnt/etc/locale.conf
 function username {
 
 arch-chroot /mnt useradd -m $username &&
-arch-chroot /mnt passwd $username &&
+echo "$username:$pw" | arch-chroot /mnt chpasswd &&
 arch-chroot /mnt usermod -aG wheel $username
 
 }
@@ -91,16 +91,16 @@ arch-chroot /mnt usermod -aG wheel $username
 # sudoers
 function sudoers {
 
-arch-chroot /mnt sed -i 's/^#%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /mnt/etc/sudoers
-
+echo "$username ALL=(ALL:ALL) ALL" > /mnt/etc/sudoers.d/nologin
 }
 
 # cmdline
 function cmdline {
 
 arch-chroot /mnt mkdir -p /mnt/etc/cmdline.d &&
-arch-chroot /mnt touch /mnt/etc/cmdline.d/{01-boot.conf,02-mods.conf,03-secs.conf,04-perf.conf,05-nets.conf,06-misc.cinf} &&
-arch-chroot /mnt echo "root=$root" /mnt/etc/cmdline.d/01-boot.conf
+arch-chroot /mnt touch /mnt/etc/cmdline.d/{01-boot.conf,02-mods.conf,03-secs.conf,04-perf.conf,05-nets.conf,06-misc.conf} &&
+arch-chroot /mnt echo "root=$root" /mnt/etc/cmdline.d/01-boot.conf &&
+arch-chroot /mnt echo "rw" /mnt/etc/cmdline.d/06-misc.conf
 
 }
 
