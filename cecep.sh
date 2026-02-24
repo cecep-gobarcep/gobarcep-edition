@@ -120,12 +120,12 @@ arch-chroot /mnt sed -i "s/^#default_uki=\"/efi/EFI/Linux/arch-linux-zen.efi\"/d
 # boot
 function boot {
 
-mkdir /mnt/boot/kernel /mnt/boot/efi &&
-mv /mnt/boot/$procesor-* /mnt/boot/kernel &&
+mkdir /mnt/boot/kernel && mkdir /mnt/boot/efi &&
+mv /mnt/boot/$procesor.img /mnt/boot/kernel &&
 mv /mnt/boot/vmlinuz-* /mnt/boot/kernel &&
 rm -fr /mnt/boot/initramfs-* &&
 arch-chroot /mnt bootctl --path=/boot install &&
-arch-chroot /mnt touch /etc/vconsole.conf &&
+touch /mnt/etc/vconsole.conf &&
 arch-chroot /mnt mkinitcpio -P
 #umount -R /mnt
 
