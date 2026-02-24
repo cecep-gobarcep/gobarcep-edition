@@ -4,6 +4,7 @@ read -p "masukan partisi home: " home
 read -p "masukan username: " username
 read -p "masukan hostname: " hostname
 read -sp "masukan password: " pw
+echo 
 read -p "masukan nama procesor: " procesor
 
 # root partition
