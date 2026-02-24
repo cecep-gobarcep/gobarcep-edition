@@ -5,7 +5,15 @@ read -p "masukan username: " username
 read -p "masukan hostname: " hostname
 read -sp "masukan password: " pw
 echo 
-read -p "masukan nama procesor (misal intel-ucode/amd-ucode) :  " processor
+
+if [[ ! -z $( cat /proc/cpuinfo | grep "Intel" )  ]];then
+    ucodes=intel-ucode
+    img=intel-ucode.img
+fi
+if [[ ! -z $( cat /proc/cpuinfo | grep "AMD" )  ]];then
+    ucodes=amd-ucode
+    img=amd-ucode.img
+fi
 
 # root partition
 function format {
@@ -121,7 +129,7 @@ arch-chroot /mnt sed -i "s/^#default_uki=\"/efi/EFI/Linux/arch-linux-zen.efi\"/d
 function boot {
 
 mkdir /mnt/boot/kernel && mkdir /mnt/boot/efi &&
-mv /mnt/boot/$procesor.img /mnt/boot/kernel &&
+mv /mnt/boot/$img /mnt/boot/kernel &&
 mv /mnt/boot/vmlinuz-* /mnt/boot/kernel &&
 rm -fr /mnt/boot/initramfs-* &&
 arch-chroot /mnt bootctl --path=/boot install &&
