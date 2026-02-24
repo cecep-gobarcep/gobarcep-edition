@@ -9,9 +9,9 @@ read -p "masukan nama procesor" procesor
 # root partition
 function format {
 
-mkfs.ext4 -b 4096 $root &&
-mkfs.vfat -F32 -n BOOT $boot &&
-mkfs.ext4 -b 4096 $home
+yes | mkfs.ext4 -b 4096 $root &&
+yes | mkfs.vfat -F32 -n BOOT $boot &&
+yes | mkfs.ext4 -b 4096 $home
 
 }
 
@@ -38,7 +38,7 @@ mount $home /mnt/home
 # packages
 function packages {
 
-pacstrap /mnt linux-zen linux-headers linux-firmware-$procesor $procesor-ucode iptables-nft bash-complation base base-devel mkinitcpio git firewalld wget neovim &&
+pacstrap /mnt linux-zen linux-headers linux-firmware-$procesor $procesor-ucode iptables-nft bash-completion base base-devel mkinitcpio git firewalld wget neovim --noconfirm &&
 genfstab -U /mnt > /mnt/etc/fstab
 
 }
@@ -55,7 +55,7 @@ cp /var/lib/iwd /mnt/var/lib/iwd
 # tampilan
 function tampilan {
 
-arch-chroot /mnt pacman -S gnome gdm pipewire pipewire-jack pipewire-alsa pipewire-pulse wireplumber pamixer networkmanager network-manager-applet gnome-keyring
+arch-chroot /mnt pacman -S gnome gdm pipewire pipewire-jack pipewire-alsa pipewire-pulse wireplumber pamixer networkmanager network-manager-applet gnome-keyring --noconfirm
 
 }
 
@@ -70,8 +70,8 @@ arch-chroot /mnt echo $hosname > /mnt/etc/hostname
 function timezone {
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime &&
-hwclock --systohc &&
-arch-chroot /mnt sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /mnt/etc/locaale-gen &&
+arch-chroot /mnt hwclock --systohc &&
+arch-chroot /mnt sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /mnt/etc/locale-gen &&
 arch-chroot /mnt locale-gen &&
 arch-chroot /mnt locale > /mnt/etc/locale.conf &&
 arch-chroot /mnt sed -i 's/^LANG=C.UTF-8/LANG=en_US.UTF-8/' /mnt/etc/locale.conf &&
@@ -108,11 +108,11 @@ arch-chroot /mnt echo "root=$root" /mnt/etc/cmdline.d/01-boot.conf
 function mkinticpio {
 
 mv -f /etc/mkinitcpio.conf /etc/mkinitcpio.d/default.conf &&
-arch-chroot /mnt sed -i 's/^#ALL_config="/etc/mkinitcpio.conf"/ALL_config="/etc/mkinitcpio.d/default.conf"/' /etc.mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^#ALL_kver="/boot/vmlinuz-linux-zen"/ALL_kver="/boot/kernel/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^#ALL_kerneldest="/boot/vmlinuz-linux-zen"/ALL_kerneldest="/boot/kernel/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^default_image="/boot/initramfs-linux-zen.img"/#default_image="/boot/initramfs-linux-zen.img"/' /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^#default_uki="/efi/EFI/Linux/arch-linux-zen.efi"/default_uki="/boot/efi/Linux/arch-linux-zen.efi"/' /etc/mkinitcpio.d/linux-zen.preset
+arch-chroot /mnt sed -i 's/^#ALL_config="\/etc\/mkinitcpio.conf"/ALL_config="\/etc\/mkinitcpio.d\/default.conf"/' /etc.mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^#ALL_kver="\/boot\/vmlinuz-linux-zen"/ALL_kver="\/boot\/kernel\/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^#ALL_kerneldest="\/boot\/vmlinuz-linux-zen"/ALL_kerneldest="\/boot\/kernel\/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^default_image="\/boot\/initramfs-linux-zen.img"/#default_image="\/boot\/initramfs-linux-zen.img"/' /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^#default_uki="\/efi\/EFI\/Linux\/arch-linux-zen.efi"/default_uki="\/boot\/efi\/Linux\/arch-linux-zen.efi"/' /etc/mkinitcpio.d/linux-zen.preset
 
 }
 
