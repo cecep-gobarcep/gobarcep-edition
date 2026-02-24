@@ -3,7 +3,7 @@ read -p "masukan partisi root: " root
 read -p "masukan partisi home: " home
 read -p "masukan username: " username
 read -p "masukan hostname: " hostname
-read -p "masukan password: " pw
+#read -p "masukan password: " pw
 read -p "masukan nama procesor: " procesor
 
 # root partition
@@ -71,7 +71,7 @@ function timezone {
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime &&
 arch-chroot /mnt hwclock --systohc &&
-arch-chroot /mnt sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /mnt/etc/locale-gen &&
+arch-chroot /mnt sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /mnt/etc/locale.gen &&
 arch-chroot /mnt locale-gen &&
 arch-chroot /mnt locale > /mnt/etc/locale.conf &&
 arch-chroot /mnt sed -i 's/^LANG=C.UTF-8/LANG=en_US.UTF-8/' /mnt/etc/locale.conf &&
@@ -83,7 +83,7 @@ arch-chroot /mnt sed -i 's/^LC_ALL=/LC_ALL=en_US.UTF-8/' /mnt/etc/locale.conf
 function username {
 
 arch-chroot /mnt useradd -m $username &&
-arch-chroot /mnt echo "$username:$pw" | sudo chpasswd &&
+arch-chroot /mnt passwd $username &&
 arch-chroot /mnt usermod -aG wheel $username
 
 }
@@ -91,7 +91,7 @@ arch-chroot /mnt usermod -aG wheel $username
 # sudoers
 function sudoers {
 
-arch-chroot /mnt sed -i 's/^#%wheel ALL=(ALL:ALL) ALL/' /mnt/etc/sudoers
+arch-chroot /mnt sed -i 's/^#%wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /mnt/etc/sudoers
 
 }
 
