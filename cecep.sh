@@ -20,8 +20,8 @@ function mounting {
 
 mount $root /mnt &&
 mkdir /mnt/boot &&
-mkdir /mnt home &&
-mount -o uid=0,gid=0,fmask=0077,dmask=0077 $boot /mnt/boot
+mkdir /mnt/home &&
+mount -o uid=0,gid=0,fmask=0077,dmask=0077 $boot /mnt/boot &&
 mount $home /mnt/home
 
 }
@@ -33,7 +33,7 @@ mount $home /mnt/home
 #mkdir /mnt home &&
 #mount $home /mnt/home
 
-}
+#}
 
 # packages
 function packages {
