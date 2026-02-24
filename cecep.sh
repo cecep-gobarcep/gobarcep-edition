@@ -1,10 +1,10 @@
-read -p "masukan partisi boot" boot
-read -p "masukan partisi root" root
-read -p "masukan partisi home" home
-read -p "masukan username" username
-read -p "masukan hostname" hostname
-read -p "masukan password" pw
-read -p "masukan nama procesor" procesor
+read -p "masukan partisi boot: " boot
+read -p "masukan partisi root: " root
+read -p "masukan partisi home: " home
+read -p "masukan username: " username
+read -p "masukan hostname: " hostname
+read -p "masukan password: " pw
+read -p "masukan nama procesor: " procesor
 
 # root partition
 function format {
@@ -62,7 +62,7 @@ arch-chroot /mnt pacman -S gnome gdm pipewire pipewire-jack pipewire-alsa pipewi
 # hostname
 function hostname {
 
-arch-chroot /mnt echo $hosname > /mnt/etc/hostname
+arch-chroot /mnt echo $hostname > /mnt/etc/hostname
 
 }
 
