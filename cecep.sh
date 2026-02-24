@@ -73,7 +73,7 @@ arch-chroot /mnt ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime &&
 arch-chroot /mnt hwclock --systohc &&
 arch-chroot /mnt sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen &&
 arch-chroot /mnt locale-gen &&
-arch-chroot /mnt locale > /etc/locale.conf &&
+arch-chroot /mnt locale > /mnt/etc/locale.conf &&
 arch-chroot /mnt sed -i 's/^LANG=C.UTF-8/LANG=en_US.UTF-8/' /etc/locale.conf &&
 arch-chroot /mnt sed -i 's/^LC_ALL=/LC_ALL=en_US.UTF-8/' /etc/locale.conf
 
@@ -107,12 +107,12 @@ arch-chroot /mnt echo "rw" /mnt/etc/cmdline.d/06-misc.conf
 # mkinitcpio
 function mkinticpio {
 
-mv -f /etc/mkinitcpio.conf /etc/mkinitcpio.d/default.conf &&
-arch-chroot /mnt sed -i 's/^#ALL_config="\/etc\/mkinitcpio.conf"/ALL_config="\/etc\/mkinitcpio.d\/default.conf"/' /etc.mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^#ALL_kver="\/boot\/vmlinuz-linux-zen"/ALL_kver="\/boot\/kernel\/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^#ALL_kerneldest="\/boot\/vmlinuz-linux-zen"/ALL_kerneldest="\/boot\/kernel\/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^default_image="\/boot\/initramfs-linux-zen.img"/#default_image="\/boot\/initramfs-linux-zen.img"/' /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i 's/^#default_uki="\/efi\/EFI\/Linux\/arch-linux-zen.efi"/default_uki="\/boot\/efi\/Linux\/arch-linux-zen.efi"/' /etc/mkinitcpio.d/linux-zen.preset
+mv /mnt/etc/mkinitcpio.conf /mnt/etc/mkinitcpio.d/default.conf &&
+arch-chroot /mnt sed -i 's/^\#ALL_config="\/etc\/mkinitcpio.conf"/ALL_config="\/etc\/mkinitcpio.d\/default.conf"/' /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^\#ALL_kver="\/boot\/vmlinuz-linux-zen"/ALL_kver="\/boot\/kernel\/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^\#ALL_kerneldest="\/boot\/vmlinuz-linux-zen"/ALL_kerneldest="\/boot\/kernel\/vmlinuz-linux-zen"/' /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^default_image="\/boot\/initramfs-linux-zen.img"/\#default_image="\/boot\/initramfs-linux-zen.img"/' /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i 's/^\#default_uki="\/efi\/EFI\/Linux\/arch-linux-zen.efi"/default_uki="\/boot\/efi\/Linux\/arch-linux-zen.efi"/' /etc/mkinitcpio.d/linux-zen.preset
 
 }
 
