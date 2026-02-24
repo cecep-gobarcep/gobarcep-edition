@@ -71,11 +71,11 @@ function timezone {
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime &&
 arch-chroot /mnt hwclock --systohc &&
-arch-chroot /mnt sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /mnt/etc/locale.gen &&
+arch-chroot /mnt sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen &&
 arch-chroot /mnt locale-gen &&
-arch-chroot /mnt locale > /mnt/etc/locale.conf &&
-arch-chroot /mnt sed -i 's/^LANG=C.UTF-8/LANG=en_US.UTF-8/' /mnt/etc/locale.conf &&
-arch-chroot /mnt sed -i 's/^LC_ALL=/LC_ALL=en_US.UTF-8/' /mnt/etc/locale.conf
+arch-chroot /mnt locale > /etc/locale.conf &&
+arch-chroot /mnt sed -i 's/^LANG=C.UTF-8/LANG=en_US.UTF-8/' /etc/locale.conf &&
+arch-chroot /mnt sed -i 's/^LC_ALL=/LC_ALL=en_US.UTF-8/' /etc/locale.conf
 
 }
 
