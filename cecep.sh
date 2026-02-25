@@ -114,7 +114,7 @@ echo "rw" > /mnt/etc/cmdline.d/06-misc.conf
 }
 
 # mkinitcpio
-function mkinticpio {
+function mkinitcpio {
 
 mv -f /mnt/etc/mkinitcpio.conf /mnt/etc/mkinitcpio.d/default.conf &&
 arch-chroot /mnt sed -i "s/^#ALL_config=\"/etc/mkinitcpio.conf\"/ALL_config=\"/etc/mkinitcpio.d/default.conf\"/" /etc/mkinitcpio.d/linux-zen.preset &&
@@ -141,15 +141,15 @@ arch-chroot /mnt mkinitcpio -P
 
 function runscript {
 
-echo "configure pon"
+echo "formating disk"
 format
 sleep 5
 
-echo "configure cboot"
+echo "mounting partition"
 mounting
 sleep 5
 
-echo "configure packages"
+echo "installing packages"
 packages
 sleep 5
 
@@ -157,7 +157,7 @@ echo "configure network"
 network
 sleep 5
 
-echo "configure tampilan"
+echo "configure desktop"
 tampilan
 sleep
 
