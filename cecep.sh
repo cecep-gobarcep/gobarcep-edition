@@ -117,11 +117,11 @@ echo "rw" > /mnt/etc/cmdline.d/06-misc.conf
 function mkinitcpio {
 
 mv -f /mnt/etc/mkinitcpio.conf /mnt/etc/mkinitcpio.d/default.conf &&
-arch-chroot /mnt sed -i "s/^#ALL_config=\"/etc/mkinitcpio.conf\"/ALL_config=\"/etc/mkinitcpio.d/default.conf\"/" /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i "s/^#ALL_kver=\"/boot/vmlinuz-linux-zen\"/ALL_kver=\"/boot/kernel/vmlinuz-linux-zen\"/" /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i "s/^#ALL_kerneldest=\"/boot/vmlinuz-linux-zen\"/ALL_kerneldest=\"/boot/kernel/vmlinuz-linux-zen\"/" /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i "s/^default_image=\"/boot/initramfs-linux-zen.img\"/#default_image=\"/boot/initramfs-linux-zen.img\"/" /etc/mkinitcpio.d/linux-zen.preset &&
-arch-chroot /mnt sed -i "s/^#default_uki=\"/efi/EFI/Linux/arch-linux-zen.efi\"/default_uki=\"/boot/efi/Linux/arch-linux-zen.efi\"/" /etc/mkinitcpio.d/linux-zen.preset
+arch-chroot /mnt sed -i "s|^#ALL_config=\"/etc/mkinitcpio.conf\"|ALL_config=\"/etc/mkinitcpio.d/default.conf\"|" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s|^#ALL_kver=\"/boot/vmlinuz-linux-zen\"|ALL_kver=\"/boot/kernel/vmlinuz-linux-zen\"|" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s|^#ALL_kerneldest=\"/boot/vmlinuz-linux-zen\"|ALL_kerneldest=\"/boot/kernel/vmlinuz-linux-zen\"|" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s|^default_image=\"/boot/initramfs-linux-zen.img\"|#default_image=\"/boot/initramfs-linux-zen.img\"|" /etc/mkinitcpio.d/linux-zen.preset &&
+arch-chroot /mnt sed -i "s|^#default_uki=\"/efi/EFI/Linux/arch-linux-zen.efi\"|default_uki=\"/boot/efi/Linux/arch-linux-zen.efi\"|" /etc/mkinitcpio.d/linux-zen.preset
 
 }
 
@@ -135,7 +135,18 @@ rm -fr /mnt/boot/initramfs-* &&
 arch-chroot /mnt bootctl --path=/boot install &&
 touch /mnt/etc/vconsole.conf &&
 arch-chroot /mnt mkinitcpio -P
-#umount -R /mnt
+
+}
+
+function system {
+
+arch-chroot /mnt systemctl enable NetworkManager &&
+arch-chroot /mnt systemctl enable systemd-networkd.socket &&
+arch-chroot /mnt systemctl enable systemd-resolved &&
+arch-chroot /mnt systemctl enable firewalld &&
+arch-chroot /mnt systemctl enable gdm &&
+arch-chroot /mnt systemctl enable --global pipewire-pulse &&
+arch-chroot /mnt systemctl enable --global pipewire
 
 }
 
@@ -188,6 +199,10 @@ sleep 5
 
 echo "configure boot"
 boot
+sleep 5
+
+echo "enabling system"
+system
 sleep 5
 
 }
