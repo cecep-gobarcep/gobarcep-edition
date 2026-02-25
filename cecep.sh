@@ -8,11 +8,11 @@ echo
 
 if [[ ! -z $( cat /proc/cpuinfo | grep "Intel" )  ]];then
     ucodes=intel-ucode
-    img=intel-ucode.img
+    imgs=intel-ucode.img
 fi
 if [[ ! -z $( cat /proc/cpuinfo | grep "AMD" )  ]];then
     ucodes=amd-ucode
-    img=amd-ucode.img
+    imgs=amd-ucode.img
 fi
 
 # root partition
@@ -47,7 +47,7 @@ mount $home /mnt/home
 # packages
 function packages {
 
-pacstrap /mnt linux-zen linux-headers linux-firmware $processor iptables-nft bash-completion base base-devel mkinitcpio git firewalld wget neovim --noconfirm &&
+pacstrap /mnt linux-zen linux-headers linux-firmware $ucodes iptables-nft bash-completion base base-devel mkinitcpio git firewalld wget neovim --noconfirm &&
 genfstab -U /mnt > /mnt/etc/fstab
 
 }
@@ -129,7 +129,7 @@ arch-chroot /mnt sed -i "s/^#default_uki=\"/efi/EFI/Linux/arch-linux-zen.efi\"/d
 function boot {
 
 mkdir /mnt/boot/kernel && mkdir /mnt/boot/efi &&
-mv /mnt/boot/$img /mnt/boot/kernel &&
+mv /mnt/boot/$imgs /mnt/boot/kernel &&
 mv /mnt/boot/vmlinuz-* /mnt/boot/kernel &&
 rm -fr /mnt/boot/initramfs-* &&
 arch-chroot /mnt bootctl --path=/boot install &&
